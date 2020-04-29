@@ -11,7 +11,7 @@ async def sigterm_handler(loop):
     LOGGER.info("SIGTERM received")
     envoy_manager = EnvoyManager()
     envoy_manager.healthcheck_fail()
-    await asyncio.sleep(os.getenv("DRAIN_TIMEOUT", default=40))
+    await asyncio.sleep(int(os.getenv("DRAIN_TIMEOUT", default=40)))
     loop.stop()
 
 
