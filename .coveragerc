@@ -1,0 +1,3 @@
+[report]
+show_missing=True
+omit=task_helper/test_*,task_helper/main.py
