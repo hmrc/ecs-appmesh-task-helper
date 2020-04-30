@@ -2,6 +2,7 @@ SHELL := /usr/bin/env bash
 DOCKER_OK := $(shell type -P docker)
 PYTHON_VERSION := 3.8.2
 REPO_HOST := local
+VERSION := development
 POETRY_RUNNER := docker run -u `id -u`:`id -g` -v `pwd`:/app --rm python-poetry:$(PYTHON_VERSION)
 
 default: help
@@ -19,13 +20,12 @@ check_docker:
     endif
 
 update: build_test_container
-	@mkdir .cache
+	@mkdir -p .cache
 	@$(POETRY_RUNNER) poetry update
 
 setup: build_test_container
 	@echo '**************** Creating virtualenv *******************'
 	@$(POETRY_RUNNER) poetry install --no-root
-	@pip install -i https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple/ version-incrementor==0.7.0
 	@echo '*************** Installation Complete ******************'
 
 setup_git_hooks: setup
@@ -54,17 +54,15 @@ clean:  ## Delete virtualenv
 
 build: setup test security_checks
 	@$(POETRY_RUNNER) poetry export -f requirements.txt > ./requirements.txt --without-hashes
-	@prepare-release
-	@docker build --tag $(REPO_HOST)/ecs-appmesh-task-helper:$$(cat .version) . 
+	@docker build --tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) . 
 	@rm -rf ./requirements.txt
 
 push_image: ## Push the docker image to artifactory
-	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:$$(cat .version)
-	@cut-release
+	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION)
 
 push_latest: ## Push the latest tag to artifactory
-	@docker tag $(REPO_HOST)/ecs-appmesh-task-helper:$$(cat .version) $(REPO_HOST)/ecs-appmesh-task-helper:latest
+	@docker tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) $(REPO_HOST)/ecs-appmesh-task-helper:latest
 	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:latest
 
 build_test_container:
-	@docker build -t python-poetry:3.8.2 -f poetry.Dockerfile .
+	@docker build -t python-poetry:$(PYTHON_VERSION) -f poetry.Dockerfile .
