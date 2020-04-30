@@ -5,6 +5,7 @@ import sys
 from envoy_manager import EnvoyManager
 
 LOGGER = logging.getLogger(__name__)
+LOGGER.setLevel(logging.INFO)
 
 
 async def sigterm_handler(loop):

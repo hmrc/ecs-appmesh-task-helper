@@ -10,3 +10,10 @@ def test_healthcheck_fail(caplog):
     with mock.patch("envoy_manager.requests.post") as mock_post:
         mock_post.return_value = "OK"
         assert envoy_manager.healthcheck_fail() is True
+
+
+def test_healthcheck_fail_exception(caplog):
+    envoy_manager = EnvoyManager()
+    with mock.patch("envoy_manager.requests.post") as mock_post:
+        mock_post.side_effect = ConnectionError()
+        assert envoy_manager.healthcheck_fail() is True
