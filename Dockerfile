@@ -8,6 +8,7 @@ RUN rm /requirements.txt
 
 ADD task_helper/main.py /app
 ADD task_helper/envoy_manager.py /app
+ADD task_helper/environment_variables.py /app
 
 RUN chmod 0664 /app/*.py
 
