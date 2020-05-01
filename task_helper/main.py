@@ -1,18 +1,20 @@
 import asyncio
 import logging
-import os
 import sys
 from envoy_manager import EnvoyManager
+from environment_variables import EnvironmentVariables
 
 LOGGER = logging.getLogger(__name__)
 LOGGER.setLevel(logging.INFO)
 
 
 async def sigterm_handler(loop):
-    LOGGER.info("SIGTERM received")
+    LOGGER.info('{ "message": "SIGTERM received" }')
+    environment_variables = EnvironmentVariables()
+    await asyncio.sleep(environment_variables.get_drain_delay())
     envoy_manager = EnvoyManager()
     envoy_manager.healthcheck_fail()
-    await asyncio.sleep(int(os.getenv("DRAIN_TIMEOUT", default=40)))
+    await asyncio.sleep(environment_variables.get_drain_timeout())
     loop.stop()
 
 
@@ -27,6 +29,6 @@ try:
 finally:
     loop.close()
 
-LOGGER.info("Exiting the process")
+LOGGER.info('{ "message": "Exiting the process" }')
 
 sys.exit(0)
