@@ -42,7 +42,7 @@ black: setup
 
 security_checks: setup
 	@$(POETRY_RUNNER) poetry run safety check
-	@$(POETRY_RUNNER) poetry run bandit -r ./task_helper --skip B303 --exclude ./task_helper/test_envoy_manager.py
+	@$(POETRY_RUNNER) poetry run bandit -r ./task_helper --skip B303 --exclude ./task_helper/test_envoy_manager.py,./task_helper/test_environment_variables.py
 
 test: setup typechecking  ## Run tests
 	@find . -type f -name '*.pyc' -delete
