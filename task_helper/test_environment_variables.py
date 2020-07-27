@@ -1,5 +1,4 @@
 import pytest
-from unittest import mock
 
 from environment_variables import EnvironmentVariables
 
