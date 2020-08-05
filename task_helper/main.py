@@ -5,13 +5,15 @@ import sys
 from envoy_manager import EnvoyManager
 from environment_variables import EnvironmentVariables
 
-import json_logging
+from pythonjsonlogger import jsonlogger
 
-json_logging.init_non_web()
+LOGGER = logging.getLogger()
 
-LOGGER = logging.getLogger(__name__)
+logHandler = logging.StreamHandler(sys.stdout)
+format_str = "%(message)%(levelname)%(name)%(asctime)"
+logHandler.setFormatter(jsonlogger.JsonFormatter(format_str))
+LOGGER.addHandler(logHandler)
 LOGGER.setLevel(logging.INFO)
-LOGGER.addHandler(logging.StreamHandler(sys.stdout))
 
 
 async def sigterm_handler(loop):
