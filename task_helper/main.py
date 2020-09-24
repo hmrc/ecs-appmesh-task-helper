@@ -21,11 +21,13 @@ async def sigterm_handler(loop):
     drain_delay = environment_variables.get_drain_delay()
     drain_timeout = environment_variables.get_drain_timeout()
 
-    # This first delay is to allow new tasks to get up and running before killing the existing tasks
+    # This first delay is to allow new tasks to get up
+    # and running before killing the existing tasks
     LOGGER.info(f"SIGTERM received, waiting for {drain_delay} seconds")
     await asyncio.sleep(drain_delay)
 
-    # Send the command to Envoy that effectively stops traffic going to the app
+    # Send the command to Envoy that effectively stops
+    # traffic going to the app
     envoy_manager = EnvoyManager()
     envoy_manager.healthcheck_fail()
 
@@ -33,7 +35,8 @@ async def sigterm_handler(loop):
     LOGGER.info(f"Waiting for {drain_timeout} seconds to allow for draining to finish")
     await asyncio.sleep(drain_timeout)
 
-    # Stopping the task here causes the cascading termination process which is based on the container dependencies
+    # Stopping the task here causes the cascading termination
+    # process which is based on the container dependencies
     loop.stop()
 
 
