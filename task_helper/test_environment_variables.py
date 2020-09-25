@@ -30,7 +30,7 @@ def test_get_drain_delay_without_environment():
 
 def test_get_drain_timeout_without_environment():
     environment_variables = EnvironmentVariables()
-    assert environment_variables.get_drain_timeout() == 40
+    assert environment_variables.get_drain_timeout() == 80
 
 
 @pytest.mark.usefixtures("environ")
