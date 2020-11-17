@@ -25,12 +25,12 @@ def environ_bad(monkeypatch):
 
 def test_get_drain_delay_without_environment():
     environment_variables = EnvironmentVariables()
-    assert environment_variables.get_drain_delay() == 40
+    assert environment_variables.get_drain_delay() == 1
 
 
 def test_get_drain_timeout_without_environment():
     environment_variables = EnvironmentVariables()
-    assert environment_variables.get_drain_timeout() == 80
+    assert environment_variables.get_drain_timeout() == 10
 
 
 @pytest.mark.usefixtures("environ")
