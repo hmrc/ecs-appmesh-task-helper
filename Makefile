@@ -26,6 +26,7 @@ update: build_test_container
 setup: build_test_container
 	@echo '**************** Creating virtualenv *******************'
 	@$(POETRY_RUNNER) poetry install --no-root
+	@$(POETRY_RUNNER) poetry run pip install --upgrade pip
 	@echo '*************** Installation Complete ******************'
 
 setup_git_hooks: setup
