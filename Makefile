@@ -3,7 +3,7 @@ DOCKER_OK := $(shell type -P docker)
 PYTHON_VERSION := 3.8.2
 REPO_HOST := local
 VERSION := development
-POETRY_RUNNER := docker run -u `id -u`:`id -g` -v `pwd`:/app --rm python-poetry:$(PYTHON_VERSION)
+POETRY_RUNNER := docker run -v `pwd`:/app --rm python-poetry:$(PYTHON_VERSION)
 
 default: help
 
@@ -55,7 +55,7 @@ clean:  ## Delete virtualenv
 
 build: setup test security_checks
 	@$(POETRY_RUNNER) poetry export -f requirements.txt > ./requirements.txt --without-hashes
-	@docker build --tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) . 
+	@docker build --tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) .
 	@rm -rf ./requirements.txt
 
 push_image: ## Push the docker image to artifactory
