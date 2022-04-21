@@ -54,3 +54,4 @@ share/python-wheels/
 .mypy_cache/
 .venv/
 .cache/
+.pytest_cache/
