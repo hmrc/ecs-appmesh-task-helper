@@ -512,8 +512,8 @@ python-versions = "*"
 
 [metadata]
 lock-version = "1.1"
-python-versions = "3.8.2"
-content-hash = "956cc9e6f179112b28c88413d47b284f14115df70d55f6ebdb80df692ec4336d"
+python-versions = "3.8.13"
+content-hash = "129197302439464cbb8f403c0b0af656848e1a3b26ce6372303c3d690d65f267"
 
 [metadata.files]
 "aspy.refactor-imports" = [

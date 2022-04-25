@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 DOCKER_OK := $(shell type -P docker)
-PYTHON_VERSION := 3.8.2
+PYTHON_VERSION := 3.8.13
 REPO_HOST := local
 VERSION := development
 
