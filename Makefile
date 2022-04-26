@@ -59,3 +59,7 @@ push_image: ## Push the docker image to artifactory
 push_latest: ## Push the latest tag to artifactory
 	@docker tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) $(REPO_HOST)/ecs-appmesh-task-helper:latest
 	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:latest
+
+push_experimental: ## Push the experimental tag to artifactory
+	@docker tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) $(REPO_HOST)/ecs-appmesh-task-helper:experimental
+	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:experimental
