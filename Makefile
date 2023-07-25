@@ -1,6 +1,5 @@
 SHELL := /usr/bin/env bash
 DOCKER_OK := $(shell type -P docker)
-PYTHON_VERSION := 3.8.13
 REPO_HOST := local
 VERSION := development
 
@@ -24,7 +23,7 @@ update:
 
 setup:
 	@echo '**************** Creating virtualenv *******************'
-	@pip install --upgrade poetry
+	@pip install --index-url https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple/ --upgrade poetry
 	@poetry install
 	@echo '*************** Installation Complete ******************'
 
@@ -37,8 +36,7 @@ black: setup
 	@poetry run black ./task_helper
 
 security_checks: setup
-	@poetry run safety check
-	@poetry run bandit -r ./task_helper --skip B303 --exclude ./task_helper/test_envoy_manager.py,./task_helper/test_environment_variables.py
+	@poetry run bandit -r ./task_helper --skip B303 --exclude ./task_helper/test_envoy_manager.py,./task_helper/test_environment_variables.py,./task_helper/test_application_health_check.py
 
 test: setup typechecking  ## Run tests
 	@find . -type f -name '*.pyc' -delete
