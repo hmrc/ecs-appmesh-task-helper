@@ -10,7 +10,7 @@ class EnvoyManager:
         LOGGER.info("Signalling envoy to fail the task")
         url = "http://127.0.0.1:9901/healthcheck/fail"
         try:
-            response = requests.post(url)
+            response = requests.post(url, timeout=5)
             LOGGER.info(f"Response from {url}: {response.status_code}")
         except Exception:
             LOGGER.exception("An error occurred POSTing to the envoy admin api")
