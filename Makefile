@@ -52,6 +52,7 @@ build: setup test security_checks
 	@rm -rf ./requirements.txt
 
 push_image: ## Push the docker image to artifactory
+	echo $(cat .version)
 	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION)
 
 push_latest: ## Push the latest tag to artifactory
