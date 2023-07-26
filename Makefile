@@ -48,6 +48,7 @@ clean:  ## Delete virtualenv
 
 build: setup test security_checks
 	@poetry export -f requirements.txt > ./requirements.txt --without-hashes
+	echo $(VERSION)
 	@docker build --tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) .
 	@rm -rf ./requirements.txt
 
