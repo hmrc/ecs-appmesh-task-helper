@@ -11,7 +11,7 @@ class ApplicationHealthCheck:
         self.path = path
 
     def is_healthy(self):
-        LOGGER.info("Checking the health of the app for startup issues")
+        LOGGER.info("Checking the health of the app")
         url = f"http://127.0.0.1:{self.port}{self.path}"
         try:
             response = requests.post(url, timeout=2.5)
