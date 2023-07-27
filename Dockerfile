@@ -1,5 +1,5 @@
 ARG DOCKERHUB=dockerhub.tax.service.gov.uk
-FROM ${DOCKERHUB}/python:3.8.13-alpine3.15
+FROM ${DOCKERHUB}/python:3.10.11-alpine3.18
 
 RUN addgroup -g 1001 runner && adduser -D -u 1001 -G runner -h /app runner
 
