@@ -22,6 +22,14 @@ async def sigterm_handler(loop):
     drain_delay = environment_variables.get_drain_delay()
     drain_timeout = environment_variables.get_drain_timeout()
 
+    application_health_check = ApplicationHealthCheck(
+        environment_variables.get_port(), environment_variables.get_path()
+    )
+    # when a service instance is starting but fails,
+    # we do not want to wait for the instance to drain.
+    if not application_health_check.is_healthy():
+        LOGGER.info("Stopping service instance detected as unhealthy. No action taken")
+
     # This first delay is to allow new tasks to get up
     # and running before killing the existing tasks
     LOGGER.info(f"SIGTERM received, waiting for {drain_delay} seconds")
