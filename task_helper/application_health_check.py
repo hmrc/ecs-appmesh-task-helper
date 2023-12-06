@@ -15,7 +15,6 @@ class ApplicationHealthCheck:
         url = f"http://127.0.0.1:{self.port}{self.path}"
         try:
             response = requests.get(url, timeout=2.5, allow_redirects=False)
-        except requests.exceptions.RequestException as err:
-            LOGGER.info(f"Service instance not healthy: {err}")
+        except requests.exceptions.RequestException:
             return False
         return True
