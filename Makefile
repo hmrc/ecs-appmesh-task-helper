@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 DOCKER_OK := $(shell type -P docker)
-REPO_HOST := local
+REPO_HOST := hmrc
 VERSION := development
 
 default: help
@@ -42,22 +42,9 @@ test: setup typechecking  ## Run tests
 	@find . -type f -name '*.pyc' -delete
 	@poetry run pytest ./task_helper
 
-clean:  ## Delete virtualenv
-	@rm -rf ./.venv
-	@rm -rf ./.cache
-
 build: setup test security_checks
 	@poetry export -f requirements.txt > ./requirements.txt --without-hashes
 	@docker build --tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) .
-	@rm -rf ./requirements.txt
 
-push_image: ## Push the docker image to artifactory
-	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION)
-
-push_latest: ## Push the latest tag to artifactory
-	@docker tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) $(REPO_HOST)/ecs-appmesh-task-helper:latest
-	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:latest
-
-push_experimental: ## Push the experimental tag to artifactory
-	@docker tag $(REPO_HOST)/ecs-appmesh-task-helper:$(VERSION) $(REPO_HOST)/ecs-appmesh-task-helper:experimental
-	@docker push $(REPO_HOST)/ecs-appmesh-task-helper:experimental
+lint: setup
+	@poetry run flake8 --ignore=F841
