@@ -1,0 +1,17 @@
+FROM python:3.10.11
+
+WORKDIR /src
+
+# hadolint ignore=DL3008
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      curl \
+      openssl \
+ && rm -rf /var/lib/apt/lists/*
+
+COPY poetry.lock .
+COPY pyproject.toml .
+
+RUN pip3 install --index-url https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple/ --upgrade poetry
+RUN poetry install
+
+CMD ["/bin/sh"]

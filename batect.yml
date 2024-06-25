@@ -1,0 +1,66 @@
+project_name: ecs-appmesh-task-helper
+
+containers:
+  hadolint:
+    image: hadolint/hadolint:latest-debian
+    volumes:
+      - local: .
+        container: /src
+  poetry:
+    build_directory: .
+    dockerfile: Dockerfile.batect
+    volumes:
+      - local: .
+        container: /src
+        options: cached
+
+tasks:
+  format:
+    description: Format python
+    run:
+      container: poetry
+      command: poetry run black ./task_helper
+  lint-python:
+    description: Lint python
+    run:
+      container: poetry
+      command: poetry run flake8 .
+  lint-dockerfile:
+    description: Lint dockerfile
+    run:
+      container: hadolint
+      command: hadolint /src/Dockerfile
+  lint:
+    description: Run all lint tasks
+    prerequisites:
+      - lint-python
+      - lint-dockerfile
+  requirements:
+    description: Update requirements.txt
+    run:
+      container: poetry
+      command: poetry export -f requirements.txt --without-hashes
+  security_checks:
+    description: Run bandit checks
+    run:
+      container: poetry
+      command: poetry run bandit -r ./task_helper --skip B303 --exclude ./task_helper/test_envoy_manager.py,./task_helper/test_environment_variables.py,./task_helper/test_application_health_check.py
+  shell:
+    description: Start shell in test-runner
+    run:
+      container: poetry
+      command: bash
+  test:
+    description: Run pytest
+    prerequisites:
+      - security_checks
+      - typecheck
+    run:
+      container: poetry
+      command: "'find . -type f -name \"*.pyc\" -delete && poetry run pytest ./task_helper'"
+      entrypoint: /bin/sh -c
+  typecheck:
+    description: Use mypy to typecheck code
+    run:
+      container: poetry
+      command: poetry run mypy ./task_helper
