@@ -14,7 +14,9 @@ class ApplicationHealthCheck:
         LOGGER.info("Checking the health of the app")
         url = f"http://127.0.0.1:{self.port}{self.path}"
         try:
-            response = requests.get(url, timeout=2.5, allow_redirects=False)
+            response = requests.get(  # noqa: F841
+                url, timeout=2.5, allow_redirects=False
+            )
         except requests.exceptions.RequestException:
             return False
         return True
