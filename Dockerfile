@@ -3,14 +3,14 @@ FROM ${DOCKERHUB}/python:3.10.11-alpine3.18
 
 RUN addgroup -g 1001 runner && adduser -D -u 1001 -G runner -h /app runner
 
-ADD requirements.txt /
-RUN pip install -r /requirements.txt
-RUN rm /requirements.txt
+COPY requirements.txt /
+RUN pip install --no-cache-dir -r /requirements.txt \
+    && rm /requirements.txt
 
-ADD task_helper/main.py /app
-ADD task_helper/envoy_manager.py /app
-ADD task_helper/environment_variables.py /app
-ADD task_helper/application_health_check.py /app
+COPY task_helper/main.py /app
+COPY task_helper/envoy_manager.py /app
+COPY task_helper/environment_variables.py /app
+COPY task_helper/application_health_check.py /app
 
 RUN chmod 0664 /app/*.py
 
