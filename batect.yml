@@ -24,7 +24,7 @@ tasks:
     description: Lint python
     run:
       container: poetry
-      command: poetry run flake8 .
+      command: poetry run flake8 ./task_helper
   lint-dockerfile:
     description: Lint dockerfile
     run:
@@ -39,7 +39,8 @@ tasks:
     description: Update requirements.txt
     run:
       container: poetry
-      command: poetry export -f requirements.txt --without-hashes
+      command: "'poetry export -f requirements.txt --without-hashes > requirements.txt'"
+      entrypoint: /bin/sh -c
   security_checks:
     description: Run bandit checks
     run:

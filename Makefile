@@ -2,22 +2,18 @@
 # Jenkins produces builds for each push to git using the Jenkinsfile
 SHELL := /usr/bin/env bash
 
-all: ecs-appmesh-task-helper
-
-LOCAL_TAG:=local
-GIT_TAG:=$(shell git describe --dirty=+WIP-${USER}-$(shell date "+%Y-%m-%dT%H:%M:%S%z") --always)
-
-ecs-appmesh-task-helper:
+build: lint test
 	./batect requirements
-	docker build -t 419929493928.dkr.ecr.eu-west-2.amazonaws.com/ecs-appmesh-task-helper:$(LOCAL_TAG) .
+	docker build -t 419929493928.dkr.ecr.eu-west-2.amazonaws.com/ecs-appmesh-task-helper:local .
 
-test: ecs-appmesh-task-helper
-	./batect test
-
-debug: ecs-appmesh-task-helper
+debug:
 	./batect shell
 
 lint: 
+	./batect format
 	./batect lint
 
-.PHONY: ecs-appmesh-task-helper lint
+test:
+	./batect test
+
+.PHONY: build debug lint test
