@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY poetry.lock .
 COPY pyproject.toml .
 
-RUN pip3 install --index-url https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple/ --upgrade poetry<2.0.0
+RUN pip3 install --index-url https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple/ --upgrade "poetry<2.0.0"
 RUN poetry install
 
 CMD ["/bin/sh"]
