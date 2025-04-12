@@ -1,15 +1,21 @@
-[tool.poetry]
+[project]
 name = "ecs-appmesh-task-helper"
 version = "v0.0.0"
 description = "AWS ECS AppMesh task helper"
-authors = ["HMRC Digital"]
+requires-python = "3.10.11"
 
-[tool.poetry.dependencies]
-python = "3.10.11"
-requests = "*"
-python-json-logger = "*"
+dependencies = [
+  "requests",
+  "python-json-logger",
+]
 
-[tool.poetry.dev-dependencies]
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.requires-plugins]
+poetry-plugin-export = ">=1.9"
+
+[tool.poetry.group.dev.dependencies]
 pytest = "*"
 pytest-cov = "*"
 pytest-pycodestyle = "*"
@@ -23,7 +29,7 @@ bandit = "*"
 [[tool.poetry.source]]
 name = "artifactory"
 url = "https://artefacts.tax.service.gov.uk/artifactory/api/pypi/pips/simple/"
-priority = "default"
+priority = "primary"
 
 
 [tool.black]
