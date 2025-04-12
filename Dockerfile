@@ -18,6 +18,6 @@ USER runner
 
 WORKDIR /app
 
-ENV ENABLE_JSON_LOGGING 1
+ENV ENABLE_JSON_LOGGING=1
 
 CMD [ "python", "-u", "main.py" ]
