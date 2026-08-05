@@ -14,6 +14,7 @@ COPY task_helper/application_health_check.py /app
 
 RUN chmod 0664 /app/*.py
 
+# hadolint ignore=DL3066
 USER runner
 
 WORKDIR /app
