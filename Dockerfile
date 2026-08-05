@@ -1,3 +1,4 @@
+# hadolint ignore=DL3066
 ARG DOCKERHUB=dockerhub.tax.service.gov.uk
 FROM ${DOCKERHUB}/python:3.10.11-alpine3.18
 
