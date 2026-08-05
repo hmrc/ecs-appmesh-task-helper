@@ -1,4 +1,3 @@
-# hadolint ignore=DL3066
 ARG DOCKERHUB=dockerhub.tax.service.gov.uk
 FROM ${DOCKERHUB}/python:3.10.11-alpine3.18
 
@@ -15,6 +14,7 @@ COPY task_helper/application_health_check.py /app
 
 RUN chmod 0664 /app/*.py
 
+# hadolint ignore=DL3066
 USER runner
 
 WORKDIR /app
