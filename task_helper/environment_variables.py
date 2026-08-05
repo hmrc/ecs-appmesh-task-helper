@@ -3,10 +3,10 @@ import os
 
 class EnvironmentVariables:
     def get_drain_delay(self) -> int:
-        return self._get_integer_env_var("DRAIN_DELAY", 40)
+        return self._get_integer_env_var("DRAIN_DELAY", 1)
 
     def get_drain_timeout(self) -> int:
-        return self._get_integer_env_var("DRAIN_TIMEOUT", 80)
+        return self._get_integer_env_var("DRAIN_TIMEOUT", 10)
 
     def get_port(self) -> str:
         return self._get_string_env_var("PORT", "8080")
